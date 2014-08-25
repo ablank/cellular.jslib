@@ -3,7 +3,7 @@ Cellular-JS
 
 3rd party javascript libraries used by the Cellular base theme not hosted on D.O
 
-Copy the contents of this repo to  `$base_dir/sites/$site/themes/cellular/cellular/js/` to enable js plugins from the theme settings.
+Copy the contents of this repo to  `/sites/all/libraries/cellular/` to enable js plugins from the theme settings.
 
 ### jQuery
 https://jquery.org/license/
