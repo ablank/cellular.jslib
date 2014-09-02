@@ -1,12 +1,15 @@
-Cellular-JS
-===========
+# Cellular Library
 
-3rd party javascript libraries used by the Cellular base theme not hosted on D.O
+3rd party code used by the Cellular base theme not hosted on D.O
 
 Copy the contents of this repo to  `/sites/all/libraries/cellular/` to enable js plugins from the theme settings.
 
 ### jQuery
 https://jquery.org/license/
+
+  * jquery.form
+  * jquery.once
+  * jquery.migrate
 
 ### jQueryUI 
 http://jqueryui.com/about/
