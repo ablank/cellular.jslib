@@ -343,11 +343,6 @@ cellular.jTabs = function (opts) {
             tab.each(function () {
                 var li = jQuery(this);
 
-                if (li.height() > maxHeight) {
-                    maxHeight = li.height();
-                }
-                $t.hide();
-
                 li.addClass('tab')
                     .kidWrap();
                 //Set 1st child as title
