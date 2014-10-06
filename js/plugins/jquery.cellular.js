@@ -236,15 +236,8 @@ cellular.jMmenu = function (opts) {
         o.parent.addClass(classes);
         $menu.addClass(o.cclass);
       }
-    } /*
-     else {
-     $parent = $obj;
-     classes = fn.classes.join(' ');
-     
-     o.parent.removeClass(classes);
-     $menu.removeClass(o.cclass);
-     }
-     */
+    }
+
     $menu.prependTo($parent);
   };
 
@@ -258,12 +251,13 @@ cellular.jMmenu = function (opts) {
     });
 
     $obj.click(function () {
-      o.parent.toggleClass(fn.classes[1])
-        .toggleClass(fn.classes[2]);
-      $obj.toggleClass('active');
+      if (o.parent.hasClass(fn.classes[0])) {
+        o.parent.toggleClass(fn.classes[1])
+          .toggleClass(fn.classes[2]);
+        $obj.toggleClass('active');
+      }
     });
   });
-
 };
 
  
