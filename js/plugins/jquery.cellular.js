@@ -203,8 +203,8 @@ cellular.jMmenu = function (opts) {
     "breakpoint": cellular.opts.breakpoint, // Window breakpoint trigger
     "parent": jQuery('body'),
     "cclass": "jMmenu",
-    "direction": "left",
-    "type": "slide"
+    "type": "slide",
+    "direction": "right"
   }, opts);
   var fn = {};
 
@@ -229,31 +229,41 @@ cellular.jMmenu = function (opts) {
         fn.classes[2]
       ];
       classes = classes.join(' ');
-
-      o.parent.addClass(classes);
-      $menu.addClass(o.cclass)
-        .prependTo(o.parent);
-    }
+      if (o.parent.hasClass(fn.classes[1])) {
+        // skip.
+      }
+      else {
+        o.parent.addClass(classes);
+        $menu.addClass(o.cclass);
+      }
+    } /*
+     else {
+     $parent = $obj;
+     classes = fn.classes.join(' ');
+     
+     o.parent.removeClass(classes);
+     $menu.removeClass(o.cclass);
+     }
+     */
+    $menu.prependTo($parent);
   };
 
   return this.each(function () {
     var $obj = jQuery(this);
     var $window = jQuery(window);
-    fn.mediaQuery($obj);
 
+    fn.mediaQuery($obj);
     $window.resize(function () {
       $window.throttle(fn.mediaQuery($obj), 250);
     });
+
     $obj.click(function () {
-      var classes = [
-        fn.classes[1],
-        fn.classes[2]
-      ];
-      classes = classes.join(' ');
-      o.parent.toggleClass(classes);
+      o.parent.toggleClass(fn.classes[1])
+        .toggleClass(fn.classes[2]);
       $obj.toggleClass('active');
     });
   });
+
 };
 
  
