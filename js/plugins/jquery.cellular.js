@@ -71,6 +71,29 @@ cellular.throttle = function (fn, delay) {
   };
 };
 
+cellular.cycle = function (dir) {
+  var $obj = jQuery(this),
+    kids = $obj.children(),
+    count = -1,
+    next;
+
+  if (dir === "next") {
+    next = kids.next();
+    if (next.length < 1) {
+      next = kids[count += 1 % kids.length];
+    }
+  }
+
+  if (dir === "prev") {
+    next = kids.prev();
+    if (next.length < 1) {
+      next = kids[kids.length];
+    }
+  }
+
+  return next;
+};
+
  
  ///// 
 cellular.jAccordion = function (opts) {
@@ -155,9 +178,9 @@ cellular.jBlocklink = function (opts) {
 
     });
 
-    $obj.live('mouseenter touchstart', function () {
+    $obj.on('mouseenter touchstart', function () {
       jQuery(this).activate();
-    }).live('mouseleave touchend', function () {
+    }).on('mouseleave touchend', function () {
       jQuery(this).deactivate();
     });
   });
@@ -181,12 +204,12 @@ cellular.jFormal = function (opts) {
     $(inputs).each(function () {
       var $t = jQuery(this);
       var $v = $t.val();
-      $t.live('focus', function () {
+      $t.on('focus', function () {
         // clear the default value of an input on focus
         if ($t.val() === $v) {
           $t.val("");
         }
-      }).live('blur', function () {
+      }).on('blur', function () {
         // reset to default value if no changes were made
         if ($t.val() === "") {
           $t.val($v);
@@ -229,8 +252,8 @@ cellular.jMmenu = function (opts) {
         fn.classes[2]
       ];
       classes = classes.join(' ');
-      if (o.parent.hasClass(fn.classes[1])) {
-        // skip.
+      if (o.parent.hasClass(fn.classes[0])) {
+        // Skip if already set.
       }
       else {
         o.parent.addClass(classes);
@@ -262,7 +285,6 @@ cellular.jMmenu = function (opts) {
 
  
  ///// 
-/////
 cellular.jScrolli = function (opts) {
   o = $.extend({
     "active": 0,
@@ -274,23 +296,27 @@ cellular.jScrolli = function (opts) {
   //fn.style = function(){};
   return this.each(function () {
     var $obj = jQuery(this);
-    var $i = $obj.find(jQuery($obj.children()));
+    var $i = $obj.find('> li');
     var active = o.active ? o.active : $i[0];
     var maxHeight = 0;
 
-
     $i.each(function () {
       $t = jQuery(this);
+      // Set maxHeight equal to greatest element.
       if ($t.height() > maxHeight) {
         maxHeight = $t.height();
       }
-      $t.hide();
+      $t.hide()
+        .addClass('listed');
     });
 
     $obj.addClass(cellular.opts.cclass)
-      .height(maxHeight);
+      .height(maxHeight)
+      .once('jScrolli', function () {
+        $i.kidWrap();
+      });
 
-    jQuery(active).addClass('active')
+    jQuery(active).activate()
       .fadeIn(o.speed, function () {
         var $t = jQuery(this);
         var next = $t.next();
@@ -299,7 +325,7 @@ cellular.jScrolli = function (opts) {
         }
         $t.delay(o.pause)
           .fadeOut(o.speed, function () {
-            $t.removeClass('');
+            $t.deactivate();
             $obj.jScrolli({
               "active": next,
               "speed": o.speed,
